@@ -1,0 +1,12 @@
+<!-- 后面的 tag-class 可以覆盖(新增)前面的 container 中的样式? 不一定!  -->
+<!-- 小程序认为所有的样式，都需要从外部添加，这就是外部样式类！ -->
+<!-- 设计的很烂，可以在外部样式类中具体的 CSS 规则中添加 !important hack 它 -->
+<view bind:tap="onTap" class="container tag-class">
+  <!-- 组件插槽, 自定义使用，组件的某一部分完全由组件调用方来决定，可以自定义样式之类的，很方便 -->
+  <slot name="before"></slot>
+  <text>{{ text }}</text>
+  <slot name="after"></slot>
+  <!-- 占位，需要就传，不需要当不存在 -->
+</view>
+
+<!-- 普通样式 外部样式 -->

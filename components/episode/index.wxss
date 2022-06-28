@@ -1,0 +1,46 @@
+/* 文字排版技巧很多 */
+.container{
+  height:60rpx; /* 高度是由最大的字体决定的 */
+  display:inline-flex;
+  flex-direction: row;
+}
+
+.index-container{
+  display:flex;
+  flex-direction: row;
+  align-items: baseline; /* 文字的底部是对齐的 */
+}
+
+.plain{
+  font-size:32rpx;
+}
+
+
+.index{
+  font-size:60rpx; /* 最大的字体 */
+  line-height:60rpx; /* 行高也是对齐的重要属性 */
+  font-weight:800;
+  margin-right:14rpx;
+}
+
+.line{
+  height:44rpx;
+  margin-right:14rpx;
+  border-left:1px solid black; /* 边框模拟竖线 */
+}
+
+
+.date-container{
+  display: flex;
+  flex-direction: column;
+  margin-top:6rpx;
+}
+
+.month{
+  font-size:24rpx;
+  line-height: 24rpx;
+}
+
+.year{
+  font-size:20rpx;
+}

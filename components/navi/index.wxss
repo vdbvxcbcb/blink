@@ -1,0 +1,19 @@
+.container {
+  width: 600rpx;
+  height: 80rpx;
+  background-color: #f7f7f7;
+  border-radius: 2px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between; /* 分置两头 */
+  align-items: center;
+}
+
+.icon {
+  height: 80rpx; /* 增大 tap 区域, 用户体验更好 第一: 设计师切图切大一点, 周围透明, 第二: 用代码扩大 tap 区域 */
+  width: 80rpx;
+}
+
+.title {
+  font-size: 28rpx;
+}

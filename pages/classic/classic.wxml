@@ -1,0 +1,31 @@
+<view class="container">
+  <view class="header">
+    <!-- episode 组件 -->
+    <!-- index 期刊号 -->
+    <v-episode class="episode" index="{{classic.index}}" />
+    <view class="like-container">
+      <v-like class="like" bind:like="onLike" like="{{likeStatus}}"
+        count="{{likeCount}}" />
+      <v-button class="share-btn" open-type="share">
+        <image class="share" slot="img" src="/images/icon/share.png" />
+      </v-button>
+    </view>
+  </view>
+  <!-- 三种不同的期刊 电影 音乐 句子 -->
+  <!-- 小程序标签自带的 hidden 在自定义组件上不生效, 我们在 v-movie 组件中添加一个自定义properties也就是 hidden 自己实现 -->
+  <!-- hidden VS wx:if 显示与隐藏 VS 渲染不渲染 -->
+  <!-- hidden 初始加载消耗大, 适合频繁切换的场合 -->
+  <!-- wx:if 切换消耗大, 适合运行条件不大可能改变的时候 -->
+  <v-movie hidden="{{classic.type!=100}}" img="{{classic.image}}"
+    content="{{classic.content}}" />
+    <!-- 音乐部分, 我们使用 wx:if 需要使用 detached 生命周期函数, 而 hidden 永远不会触发 detached 函数 -->
+  <v-music wx:if="{{classic.type==200}}" img="{{classic.image}}"
+    content="{{classic.content}}" title="{{classic.title}}"
+    src="{{classic.url}}" />
+  <v-essay hidden="{{classic.type!=300}}" img="{{classic.image}}"
+    content="{{classic.content}}" />
+
+  <!-- 监听 nav 组件自定义的事件 left 和 right 从而得知, 用户是点击了左箭头, 还是点击了右箭头, 监听系统的 bind:tap 事件是得不到这个信息的, 我们只能知道用户点击了, 但是不知道用户具体点击了 左边还是右边 -->
+  <v-navi bind:left="onNext" bind:right="onPrevious" title="{{classic.title}}"
+    first="{{first}}" latest="{{latest}}" class="navi" />
+</view>

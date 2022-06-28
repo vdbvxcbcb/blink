@@ -1,0 +1,115 @@
+<wxs src="../../util/filter.wxs" module="util" /> <!-- 导入 wxs 模块, 只能使用相对路径 -->
+<view class="container">
+  <view class="head">
+    <image src="{{book.image}}"></image>
+    <text class='title'>{{book.title}}</text>
+    <text class='author'>{{book.author}}</text>
+  </view>
+  <view class="sub-container">
+    <text class="headline">短评</text>
+    <!-- 一个 tag 短评都没有, 给一个友好提示, "还没有短评" -->
+    <text class="shadow" wx:if="{{comments==false}}">还没有短评</text>
+    <!-- 书籍标签 -->
+    <view class="comment-container">
+      <block wx:for="{{util.limit(comments, 10)}}" wx:key="content">
+        <!-- wx:for 中 index 可以标记序号 -->
+        <v-tag tag-class="{{tool.highlight(index)}}" text="{{item.content}}">
+          <!-- 使用 slot 属性，标记这是一个插槽，需要替换掉组件内部的 <slot> 标签 -->
+          <text class="num" slot="after">{{'+'+item.nums}}</text>
+        </v-tag>
+      </block>
+    </view>
+
+  </view>
+  <view class="sub-container">
+    <text class="headline">内容简介</text>
+    <!-- format 函数会执行两次! 初始化一次(没有值 undefined), setData 更新一次(有值) -->
+    <!-- 小程序认为 text 里面的所有内容就是一段! -->
+    <!-- 开启 decode 解析转义字符(&nbsp;)  -->
+    <text class="content" decode="{{true}}">{{util.format(book.summary)}}</text>
+    <!-- <text>aaaaa\bbbbbb</text> text 本身具有解析 \ 的能力(遇到 \ 换行) 对 text 中间的文本不要手贱去换行! -->
+    <!-- 服务器返回的原始数据 \n text 换行 -->
+    <!-- 服务器返回的原始数据 \\n 转义字符 变成 \n 不会被 text 识别为换行 -->
+    <!-- 所以如果要让 text 将 \\n 解析为换行, 需要将所有的 \\n => \n 可以使用正则进行处理 -->
+  </view>
+
+  <view class="sub-container">
+    <text class="headline">书本信息</text>
+    <view class="detail-container">
+      <view class="vertical description">
+        <text>出版社</text>
+        <text>出版年</text>
+        <text>页数</text>
+        <text>定价</text>
+        <text>装帧</text>
+      </view>
+      <view class="vertical">
+        <text>{{book.publisher}}</text>
+        <text>{{book.pubdate}}</text>
+        <text>{{book.pages}}</text>
+        <text>{{book.price}}</text>
+        <text>{{book.binding}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<!-- 短评 -->
+<view class="post-container" hidden="{{posting}}">
+  <!-- 输入框 -->
+  <view bind:tap="onFakePost" class="post-fake">
+    <text>输入短评</text>
+  </view>
+  <!-- 点赞按钮, 直接复用 like 组件就 OK 了 -->
+  <view class="like-container">
+    <v-like bind:like="onLike" class="like" like="{{likeStatus}}"
+      count="{{likeCount}}" />
+  </view>
+</view>
+
+<!-- 真正输入短评的地方 -->
+<view class="posting-container" wx:if="{{posting}}">
+  <view class="post-header">
+
+    <text wx:if="{{comments==true}}">仅可点击标签+1</text>
+    <!-- 友好提示 "暂无短评" -->
+    <text wx:else>暂无短评</text>
+    <!-- 取消 -->
+    <text bind:tap="onCancel" class="cancel">取消</text>
+  </view>
+
+  <view class="comment-container">
+    <!-- 将点赞数最高的3个标签, 填充到真实的输入框模块 -->
+    <block wx:for="{{util.limit(comments, 3)}}" wx:key="content">
+      <v-tag bind:tapping="onPost" tag-class="{{tool.highlight(index)}}"
+        text="{{item.content}}">
+        <!-- tapping 自定义事件 -->
+        <text class="num" slot="after">{{'+'+item.nums}}</text>
+      </v-tag>
+    </block>
+  </view>
+  <!-- bindconfirm 事件监听用户输入完成之后, 点击键盘上的 确认按钮 -->
+  <input bindconfirm="onPost" class="post" placeholder='短评最多12个字'></input>
+</view>
+
+<!-- 背景蒙版 -->
+<v-mask wx:if="{{posting}}" />
+
+<!--
+  wxml 中编写 js 或者调用 js, 不可能
+  wxs 可以! wxs 可以写在 wxml 中 也可以独立出去, 然后在 wxml 中引用 wxs
+ -->
+<wxs module="tool">
+  var highlight = function(index){
+  if(index==0){
+  return 'ex-tag1'
+  }
+  if(index==1){
+  return 'ex-tag2'
+  }
+  return ''
+  }
+
+  module.exports = {
+  highlight:highlight
+  }
+</wxs>

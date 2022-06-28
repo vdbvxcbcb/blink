@@ -1,0 +1,26 @@
+/* components/classic/movie/index.wxss */
+/* 模板 template*/
+
+.classic-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.classic-img {
+  width: 750rpx;
+  height: 500rpx;
+}
+
+.tag {
+  width: 46rpx;
+  height: 142rpx;
+  position: relative; /* 相对自己当前的位置偏移 */
+  right: 310rpx;
+  bottom: 58rpx;
+}
+
+.content {
+  font-size: 36rpx;
+  max-width: 550rpx; /* 给文本一个宽度, 文本将会自动换行, 但是需要自适应, 不要使用定宽, 使用 max-width */
+}

@@ -1,0 +1,11 @@
+<view class="container" hidden="{{hidden}}" >
+  <!-- 封面图 -->
+  <!-- 是否旋转也就是是否添加 rotation 类名。 -->
+    <image class="classic-img {{playing?'rotation':''}}" src="{{img}}" />
+    <!-- 播放按钮 -->
+    <image class="player-img" bind:tap="onPlay"
+        src="{{!playing?playSrc:pauseSrc}}" />
+        <!-- tag "音乐" -->
+    <image class="tag" src="images/music@tag.png" />
+    <text class="content">{{content}}</text>
+</view>

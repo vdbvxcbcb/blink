@@ -1,0 +1,23 @@
+var format = function(text){
+    if(!text){
+        return
+    }
+    /* 生成 regexp 对象需要使用 getRegExp函数和 ES5 不同。*/
+    /* 寻找和匹配的字符串是 \\n 加上转义字符就是 \\\\n */
+    var reg = getRegExp('\\\\n','g') /* g 表示 global  */
+    /* \\n => \n 而且在段落首添加两个空格 */
+    return text.replace(reg, '\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
+}
+
+/* 截取数组的前若干条 */
+var limit = function(array, length){
+    return array.slice(0, length)
+}
+
+/* 只能使用 commonJS wxs 在语法形式上和 js 相似, 但是有自己的一套语法, 比如不支持 ES6 语法, const let 不支持, 支持 var */
+/* 参照 JS 的 ES5 语法标准 */
+/* wxs 结合 wxml 使用(能够在 wxml 中进行调用), 但是不能替代 js */
+module.exports = {
+    format:format,
+    limit:limit
+}
